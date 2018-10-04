@@ -9,7 +9,11 @@ from HW1_1 import Neuron  # Import neuron class for this problem
     use MATLAB R13 or later. November 2003. San Diego, CA
 
     Modified by Ali Minai
-    Modified again by Tony Bailey for HW 1
+    Modified again by Tony Bailey for HW 1 pt 2.
+
+    This program connects two RS neurons together and Neuron A
+    is fed a step response I_A. Spike rates are monitored and plotted after
+    simulating I_A ranging from 0 to 20.
 """
 
 def main():
@@ -20,8 +24,8 @@ def main():
     N1 = Neuron(0.02, 0.25, -65.0, 6.0, -64.0)
     N2 = Neuron(0.02, 0.25, -65.0, 6.0, -64.0)
 
-    tau = 0.25 # time step length
-    tspan = np.arange(0,steps+tau,tau) # Note, arange understeps by tau
+    tau = 0.25  # time step length
+    tspan = np.arange(0,steps+tau,tau)  # Note, arange understeps by tau
 
     T1 = 50  # Time at which the step input rises.
 
@@ -30,23 +34,18 @@ def main():
     # All of the 81 cases of I to be tested.
     Input = np.linspace(0,20,81)
 
-    Inplot = [1, 5, 10, 15, 20]  # list of values of I that will be plotted.
-    R1 = np.zeros(Input.shape) # preallocate R with the same length as I.
-    R2 = np.zeros(Input.shape) # preallocate R with the same length as I.
-
-    # Initialize lists for the series to be plotted.
-    v_plot1 = []
-    v_plot2 = []
+    R1 = np.zeros(Input.shape)  # preallocate R with the same length as I.
+    R2 = np.zeros(Input.shape)  # preallocate R with the same length as I.
 
     for istep, i in enumerate(Input):
 
-        print(istep)
+        print(istep)  # Print current iteration.
         # Restart spike counters
         spike_counter1 = 0
         spike_counter2 = 0
 
-        VV1 = np.zeros(tspan.shape) # preallocate VV with the same length as tspan.
-        VV2 = VV1.copy() # Deep copy of VV1
+        VV1 = np.zeros(tspan.shape)  # preallocate VV with the same length as tspan.
+        VV2 = VV1.copy()  # Deep copy of VV1
 
         N1.reset()  # Reset neuron to inital V
         N2.reset()  # Reset neuron to inital V
@@ -70,56 +69,35 @@ def main():
             if Spike2 and t >= 200.0:
                 spike_counter2 += 1
 
-        if i in Inplot:
-            # Store VV to be plotted if in the requested list of I.
-            v_plot1.append(VV1)
-            v_plot2.append(VV2)
-
         # Calculate spike rate, R
         R1[int(istep)]=spike_counter1/800.0
         R2[int(istep)]=spike_counter2/800.0
 
-    # Plot VV figure for N_A.
-    f1 = 10
-    for n in range(5):
-        plt.subplot(5,1,n+1)
-        plt.plot(tspan, v_plot1[n])
-        plt.xlabel('Time Step', fontsize=f1)
-        plt.ylim((-90, 40))
-        plt.xlim((0, tspan[-1]))
-        plt.ylabel('$V_{mem}$' , fontsize=f1)
-        plt.tick_params(labelsize=f1-2)
-        plt.title('Regular Spiking: $I_A$={}'.format(Inplot[n]), fontsize=f1, fontweight='bold')
-
-    plt.subplots_adjust(left=0.075, bottom=0.05, right=0.95, top=0.925, wspace=5, hspace=0.75)
-    plt.suptitle('HW1 pt. 2.1: $N_A$\'s Response Over Time', fontsize=f1+2)
+    # Plot N_A-R vs. I_A figure
+    plt.plot(Input,R1)
+    plt.xlabel('External Input: $I_A$')
+    plt.xlim((0, 20))
+    plt.ylim((0, max(R1)))
+    plt.ylabel('Mean Spike-rate: R')
+    plt.title('HW1 pt. 2.1: $N_A$\'s Mean Spike-rate R vs. External Input $I_A$')
     plt.show()
 
-    # Plot VV figure for N_B
-    for n in range(5):
-        plt.subplot(5,1,n+1)
-        plt.plot(tspan, v_plot2[n])
-        plt.xlabel('Time Step', fontsize=f1)
-        plt.ylim((-90, 40))
-        plt.xlim((0, tspan[-1]))
-        plt.ylabel('$V$' , fontsize=f1)
-        plt.tick_params(labelsize=f1-2)
-        plt.title('Regular Spiking: $I_A$={}'.format(Inplot[n]), fontsize=f1, fontweight='bold')
-
-    plt.subplots_adjust(left=0.075, bottom=0.05, right=0.95, top=0.925, wspace=5, hspace=0.75)
-    plt.suptitle('HW1 pt. 2.2: $N_B$\'s Response Over Time', fontsize=f1+2)
+    # Plot N_B-R vs. I_A figure
+    plt.plot(Input,R2)
+    plt.xlabel('External Input: $I_A$')
+    plt.xlim((0, 20))
+    plt.ylim((0, max(R2)))
+    plt.ylabel('Mean Spike-rate: R')
+    plt.title('HW1 pt. 2.2: $N_B$\'s Mean Spike-rate R vs. External Input $I_A$')
     plt.show()
-
 
     # Plot R_N_B vs R_N_A figure
     plt.scatter(R1, R2)
-    plt.xlabel('$N_A$\'s Mean Spike Rate: R-$N_A$', fontsize=f1)
+    plt.xlabel('$N_A$\'s Mean Spike Rate: R-$N_A$')
     plt.ylim((-0.001, max(R2)+0.001))
     plt.xlim((-0.001, max(R1)+0.001))
-    plt.ylabel('$N_B$\'s Mean Spike Rate: R-$N_B$' , fontsize=f1)
-    plt.tick_params(labelsize=f1)
-    plt.title('HW1 pt. 2.3: Mean Spike Rate of $N_B$ vs. Mean Spike Rate of $N_A$'.format(Inplot[n]),
-                fontsize=f1+2)
+    plt.ylabel('$N_B$\'s Mean Spike Rate: R-$N_B$')
+    plt.title('HW1 pt. 2.3: Mean Spike Rate of $N_B$ vs. Mean Spike Rate of $N_A$')
 
     plt.show()
 

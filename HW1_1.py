@@ -8,6 +8,11 @@ import matplotlib.pyplot as plt
 
     Modified by Ali Minai
     Modified again by Tony Bailey for HW 1
+
+    This program defines a neuron class described by Izhikevich. It is then
+    stimulated by step responses of varying inputs I ranging from 0 to 20. The
+    spiking waveforms and mean spike rates are collected and plotted after
+    the simulations finish.
 """
 
 class Neuron:
@@ -16,7 +21,6 @@ class Neuron:
     I defined the neuron as a class so that I could easily replicated its
     behavior in the two neuron system.
     """
-
     def __init__(self, a, b, c, d, V):
         # Assign neuron parameters to its own internal variables
         self.a = a
@@ -55,7 +59,7 @@ def main():
     N1 = Neuron(0.02, 0.25, -65.0, 6.0, -64.0)
 
     tau = 0.25  # time step length
-    tspan = np.arange(0,steps+tau,tau) # Arange understeps by tau
+    tspan = np.arange(0,steps+tau,tau)  # Arange understeps by tau
 
     T1 = 50  # Time at which the step input rises.
 
@@ -69,9 +73,9 @@ def main():
 
     for istep, i in enumerate(Input):
 
-        print(istep)
+        print(istep)  # Print current iteration.
         spike_counter = 0  # Restart spike counter
-        VV = np.zeros(tspan.shape) # preallocate VV with the same length as tspan.
+        VV = np.zeros(tspan.shape)  # preallocate VV with the same length as tspan.
 
         N1.reset()  # Reset neuron to initial -64mV for the next trial.
 
@@ -89,14 +93,12 @@ def main():
                 # Increment the spike counter.
                 spike_counter+=1
 
-
         if i in Inplot:
             # Store VV to be plotted if in the requested list of I.
             v_plot.append(VV)
 
         # Calculate spike rate, R
         R[int(istep)]=spike_counter/800.0
-
 
     # Plot VV figure
     f1 = 10
@@ -108,6 +110,7 @@ def main():
         plt.xlim((0, tspan[-1]))
         plt.ylabel('$V$' , fontsize=f1)
         plt.tick_params(labelsize=f1-2)
+        plt.yticks(np.arange(-90, 40, 20))
         plt.title('Regular Spiking: I={}'.format(Inplot[n]), fontsize=f1, fontweight='bold')
 
     plt.subplots_adjust(left=0.075, bottom=0.05, right=0.95, top=0.925, wspace=5, hspace=0.75)
@@ -120,7 +123,7 @@ def main():
     plt.xlim((0, 20))
     plt.ylim((0, max(R)))
     plt.ylabel('Mean Spike-rate: R')
-    plt.title('HW1 pt. 1.2: Mean Spike-rate R vs. External Input I'.format(Inplot[n]))
+    plt.title('HW1 pt. 1.2: Mean Spike-rate R vs. External Input I')
     plt.show()
 
 if __name__ == '__main__':
