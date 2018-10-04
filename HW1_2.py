@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt  # Python analog to MATLAB's plotting functions
 from HW1_1 import Neuron  # Import neuron class for this problem
 
 """
-    This python file replicates the given MATLAB file paper by
+    This python file replicates the given MATLAB file influenced by
                 Izhikevich E.M. (2004)
     Which Model to Use For Cortical Spiking Neurons?
     use MATLAB R13 or later. November 2003. San Diego, CA
@@ -74,30 +74,31 @@ def main():
         R2[int(istep)]=spike_counter2/800.0
 
     # Plot N_A-R vs. I_A figure
+    fs = 12
     plt.plot(Input,R1)
-    plt.xlabel('External Input: $I_A$')
+    plt.xlabel('External Input: $I_A$', fontsize=fs)
     plt.xlim((0, 20))
     plt.ylim((0, max(R1)))
-    plt.ylabel('Mean Spike-rate: R')
-    plt.title('HW1 pt. 2.1: $N_A$\'s Mean Spike-rate R vs. External Input $I_A$')
+    plt.ylabel('Mean Spike-rate: R', fontsize=fs)
+    plt.title('$N_A$\'s Mean Spike-rate R vs. External Input $I_A$', fontsize=fs)
     plt.show()
 
     # Plot N_B-R vs. I_A figure
     plt.plot(Input,R2)
-    plt.xlabel('External Input: $I_A$')
+    plt.xlabel('External Input: $I_A$', fontsize=fs)
     plt.xlim((0, 20))
     plt.ylim((0, max(R2)))
-    plt.ylabel('Mean Spike-rate: R')
-    plt.title('HW1 pt. 2.2: $N_B$\'s Mean Spike-rate R vs. External Input $I_A$')
+    plt.ylabel('Mean Spike-rate: R', fontsize=fs)
+    plt.title('$N_B$\'s Mean Spike-rate R vs. External Input $I_A$', fontsize=fs)
     plt.show()
 
     # Plot R_N_B vs R_N_A figure
     plt.scatter(R1, R2)
-    plt.xlabel('$N_A$\'s Mean Spike Rate: R-$N_A$')
+    plt.xlabel('$N_A$\'s Mean Spike Rate: R-$N_A$', fontsize=fs)
     plt.ylim((-0.001, max(R2)+0.001))
     plt.xlim((-0.001, max(R1)+0.001))
-    plt.ylabel('$N_B$\'s Mean Spike Rate: R-$N_B$')
-    plt.title('HW1 pt. 2.3: Mean Spike Rate of $N_B$ vs. Mean Spike Rate of $N_A$')
+    plt.ylabel('$N_B$\'s Mean Spike Rate: R-$N_B$', fontsize=fs)
+    plt.title('Mean Spike Rate of $N_B$ vs. Mean Spike Rate of $N_A$', fontsize=fs)
 
     plt.show()
 

@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 """
-    This python file replicates the given MATLAB file paper by
+    This python file replicates the given MATLAB file influenced by
                 Izhikevich E.M. (2004)
     Which Model to Use For Cortical Spiking Neurons?
     use MATLAB R13 or later. November 2003. San Diego, CA
@@ -114,16 +114,16 @@ def main():
         plt.title('Regular Spiking: I={}'.format(Inplot[n]), fontsize=f1, fontweight='bold')
 
     plt.subplots_adjust(left=0.075, bottom=0.05, right=0.95, top=0.925, wspace=5, hspace=0.75)
-    plt.suptitle('HW1 pt. 1.1: Neuron\'s Response Over Time', fontsize=f1+2)
+    plt.suptitle('Neuron\'s Response Over Time', fontsize=f1+2)
     plt.show()
 
     # Plot R figure
     plt.plot(Input,R)
-    plt.xlabel('External Input: I')
+    plt.xlabel('External Input: I', fontsize=f1+2)
     plt.xlim((0, 20))
     plt.ylim((0, max(R)))
-    plt.ylabel('Mean Spike-rate: R')
-    plt.title('HW1 pt. 1.2: Mean Spike-rate R vs. External Input I')
+    plt.ylabel('Mean Spike-rate: R', fontsize=f1+2)
+    plt.title('Mean Spike-rate R vs. External Input I', fontsize=f1+2)
     plt.show()
 
 if __name__ == '__main__':
